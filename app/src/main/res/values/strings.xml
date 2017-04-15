@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="error_message">An error has occurred. Please try again by clicking the settings menu and choosing a sort order.</string>
+    <string name="Overview">A small description of the movie goes here, not an indepth review but with some details about the movie so users would know what the movie is about.</string>
+    <string name="movie_title">30 Days In Atlanta</string>
+    <string name="user_rating">8/10</string>
+    <string name="_2015">release_date</string>
+    <string name="action_settings">Settings</string>
+</resources>
