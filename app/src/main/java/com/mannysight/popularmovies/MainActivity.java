@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private void loadMovieData(MoviePreferences preferences) {
         showMovieListDataView();
-        new FetchMovieTask().execute(preferences);
+        new FetchMovieTask(this, new FetchMovieTaskActionListener()).execute(preferences);
     }
 
 
@@ -112,52 +112,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Context context = this;
         Class destinationClass = MovieDetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, MovieJsonUtils.serializeMovieToJson(movie));
+        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movie);
         startActivity(intentToStartDetailActivity);
-    }
-
-    public class FetchMovieTask extends AsyncTask<MoviePreferences, Void, ArrayList<Result>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mLoadingIndicator.setVisibility(View.VISIBLE);
-
-        }
-
-        @Override
-        protected ArrayList<Result> doInBackground(MoviePreferences... moviePreferences) {
-            if (moviePreferences.length == 0) {
-                return null;
-            }
-            MoviePreferences preference = moviePreferences[0];
-            URL movieRequestUrl = NetworkUtils.buildUrl(preference);
-
-            try {
-                String jsonMovieResponse = NetworkUtils
-                        .getResponseFromHttpUrl(movieRequestUrl);
-
-                MovieList movieListData = MovieJsonUtils
-                        .getMovieListObjectFromJson(jsonMovieResponse);
-
-                return (ArrayList<Result>) movieListData.getResults();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<Result> movies) {
-            mLoadingIndicator.setVisibility(View.INVISIBLE);
-            if (movies != null) {
-                showMovieListDataView();
-                mMovieAdapter.setMovieList(movies);
-            } else {
-                showErrorMessage();
-            }
-        }
     }
 
     private void showErrorMessage() {
@@ -170,5 +126,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    public class FetchMovieTaskActionListener implements AsyncTaskActionListener<ArrayList<Result>> {
+        @Override
+        public void onTaskBegin() {
+            mLoadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        public void onTaskComplete(ArrayList<Result> movies) {
+            mLoadingIndicator.setVisibility(View.INVISIBLE);
+            if (movies != null) {
+                showMovieListDataView();
+                mMovieAdapter.setMovieList(movies);
+            } else {
+                showErrorMessage();
+            }
+        }
+    }
 
 }

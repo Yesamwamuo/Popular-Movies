@@ -14,17 +14,4 @@ public class MovieJsonUtils {
         MovieList movieList = gson.fromJson(jsonString, MovieList.class);
         return movieList;
     }
-
-    public static String serializeMovieToJson(Result movie) {
-        Gson gson = new Gson();
-        String j = gson.toJson(movie);
-        return j;
-    }
-
-    public static Result deserializeFromJson(String jsonMovieString) {
-        Gson gson = new Gson();
-        Result movie = gson.fromJson(jsonMovieString, Result.class);
-        return movie;
-    }
-
 }

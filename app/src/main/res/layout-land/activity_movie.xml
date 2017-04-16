@@ -69,17 +69,18 @@
                     android:layout_marginTop="@dimen/margin_padding_large"
                     android:textColor="@color/colorBlack"
                     tools:text="8/10" />
+
+                <TextView
+                    android:id="@+id/tv_overview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_padding_large"
+                    android:textSize="@dimen/text_size_large"
+                    tools:text="A small description of the movie goes here, not an indepth review but with some details about the movie so users would know what the movie is about." />
+
             </LinearLayout>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/margin_padding_large"
-            android:paddingRight="@dimen/margin_padding_large"
-            android:textSize="@dimen/text_size_large"
-            tools:text="A small description of the movie goes here, not an indepth review but with some details about the movie so users would know what the movie is about." />
     </LinearLayout>
 </ScrollView>
 
