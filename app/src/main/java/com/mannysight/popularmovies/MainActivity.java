@@ -1,11 +1,8 @@
 package com.mannysight.popularmovies;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,30 +16,37 @@ import android.widget.TextView;
 import com.mannysight.popularmovies.apimodel.MovieList;
 import com.mannysight.popularmovies.apimodel.Result;
 import com.mannysight.popularmovies.data.MoviePreferences;
-import com.mannysight.popularmovies.utilities.MovieJsonUtils;
-import com.mannysight.popularmovies.utilities.NetworkUtils;
 
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String MOVIES_ARRAY_LIST = "MOVIES ARRAY LIST";
 
-    private RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerview_movies)
+    RecyclerView mRecyclerView;
+
+    @BindView(R.id.pb_loading_indicator)
+    ProgressBar mLoadingIndicator;
+
+    @BindView(R.id.tv_error_message_display)
+    TextView mErrorMessageDisplay;
+
     private MovieAdapter mMovieAdapter;
+    private ArrayList<Result> mMoviesList;
 
-    private TextView mErrorMessageDisplay;
-    private ProgressBar mLoadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_movies);
-
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        mMoviesList = new ArrayList<>();
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
@@ -52,9 +56,32 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
-        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        if (savedInstanceState != null) {
+            MovieList movieList = savedInstanceState.getParcelable(MOVIES_ARRAY_LIST);
+            List<Result> savedMovieList = null;
+            if (movieList != null) {
+                savedMovieList = movieList.getResults();
+            }
+            if (savedMovieList != null && savedMovieList.size() > 0) {
+                mMoviesList = (ArrayList<Result>) savedMovieList;
+                mMovieAdapter.setMovieList(null);
+                mMovieAdapter.setMovieList(mMoviesList);
+                mMovieAdapter.notifyDataSetChanged();
+            }
+        } else {
+            loadMovieData(MoviePreferences.POPULAR);
+        }
 
-        loadMovieData(MoviePreferences.POPULAR);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if (mMoviesList.size() > 0) {
+            MovieList list = new MovieList();
+            list.setResults(mMoviesList);
+            outState.putParcelable(MOVIES_ARRAY_LIST, list);
+            super.onSaveInstanceState(outState);
+        }
     }
 
     @Override
@@ -71,20 +98,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            new AlertDialog.Builder(this)
-                    .setMessage("SORT BY:")
-                    .setPositiveButton("Popular", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            setListToPopular();
-                        }
-                    }).setNegativeButton("Top-Rated", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    setListToTopRated();
-                }
-            }).show();
+        if (id == R.id.action_popular) {
+            setListToPopular();
+            return true;
+        }
+        if (id == R.id.action_top_rated) {
+            setListToTopRated();
             return true;
         }
 
@@ -103,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private void loadMovieData(MoviePreferences preferences) {
         showMovieListDataView();
-        new FetchMovieTask(this, new FetchMovieTaskActionListener()).execute(preferences);
+        new FetchMovieTask(new FetchMovieTaskActionListener()).execute(preferences);
     }
 
 
@@ -126,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    public class FetchMovieTaskActionListener implements AsyncTaskActionListener<ArrayList<Result>> {
+    private class FetchMovieTaskActionListener implements AsyncTaskActionListener<ArrayList<Result>> {
+
         @Override
         public void onTaskBegin() {
             mLoadingIndicator.setVisibility(View.VISIBLE);
@@ -134,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         @Override
         public void onTaskComplete(ArrayList<Result> movies) {
+            mMoviesList = movies;
             mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (movies != null) {
                 showMovieListDataView();

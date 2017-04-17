@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/title_banner_size"
+    android:background="@color/colorTitleBg"
+    tools:showIn="@layout/activity_movie">
+
+    <TextView
+        android:id="@+id/tv_movie_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:fontFamily="sans-serif"
+        android:paddingLeft="@dimen/margin_padding_xlarge"
+        android:paddingRight="@dimen/margin_padding_xlarge"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/text_size_xxlarge"
+        tools:text="30 days in Atlanta" />
+</FrameLayout>
+

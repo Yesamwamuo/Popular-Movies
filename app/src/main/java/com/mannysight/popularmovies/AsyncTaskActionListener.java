@@ -4,9 +4,9 @@ package com.mannysight.popularmovies;
  * Created by wamuo on 4/17/2017.
  */
 
-public interface AsyncTaskActionListener<T> {
+interface AsyncTaskActionListener<T> {
 
-    public void onTaskBegin();
+    void onTaskBegin();
 
-    public void onTaskComplete(T result);
+    void onTaskComplete(T result);
 }

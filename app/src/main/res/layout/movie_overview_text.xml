@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tv_overview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_padding_large"
+    android:textAppearance="?android:textAppearanceMedium"
+    tools:showIn="@layout/activity_movie"
+    tools:text="A small description of the movie goes here, not an indepth review but with some details about the movie so users would know what the movie is about." />

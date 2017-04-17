@@ -1,8 +1,6 @@
 package com.mannysight.popularmovies;
 
-import android.content.Context;
 import android.os.AsyncTask;
-import android.view.View;
 
 import com.mannysight.popularmovies.apimodel.MovieList;
 import com.mannysight.popularmovies.apimodel.Result;
@@ -19,11 +17,9 @@ import java.util.ArrayList;
 
 public class FetchMovieTask extends AsyncTask<MoviePreferences, Void, ArrayList<Result>> {
 
-    private final Context ctx;
     private final AsyncTaskActionListener<ArrayList<Result>> listener;
 
-    public FetchMovieTask(Context ctx, AsyncTaskActionListener<ArrayList<Result>> listener) {
-        this.ctx = ctx;
+    public FetchMovieTask(AsyncTaskActionListener<ArrayList<Result>> listener) {
         this.listener = listener;
     }
 

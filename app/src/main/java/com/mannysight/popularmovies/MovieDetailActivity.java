@@ -1,31 +1,42 @@
 package com.mannysight.popularmovies;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mannysight.popularmovies.apimodel.Result;
-import com.mannysight.popularmovies.utilities.MovieJsonUtils;
+import com.mannysight.popularmovies.utilities.MoviesDateUtils;
 import com.squareup.picasso.Picasso;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
     private Result movie;
 
-    private TextView movieTitleTextView;
-    private TextView releaseDateTextView;
-    private TextView userRatingTextView;
-    private TextView overViewTextView;
+    @BindView(R.id.tv_movie_title)
+    TextView movieTitleTextView;
 
-    private ImageView moviePosterImageView;
+    @BindView(R.id.tv_release_date)
+    TextView releaseDateTextView;
+
+    @BindView(R.id.tv_user_rating)
+    TextView userRatingTextView;
+
+    @BindView(R.id.tv_overview)
+    TextView overViewTextView;
+
+    @BindView(R.id.iv_movie_poster)
+    ImageView moviePosterImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        ButterKnife.bind(this);
 
         Intent intentThatStartedThisActivity = getIntent();
         if (intentThatStartedThisActivity != null) {
@@ -33,12 +44,6 @@ public class MovieDetailActivity extends AppCompatActivity {
                 movie = intentThatStartedThisActivity.getParcelableExtra(Intent.EXTRA_TEXT);
             }
         }
-        movieTitleTextView = (TextView) findViewById(R.id.tv_movie_title);
-        releaseDateTextView = (TextView) findViewById(R.id.tv_release_date);
-        userRatingTextView = (TextView) findViewById(R.id.tv_user_rating);
-        overViewTextView = (TextView) findViewById(R.id.tv_overview);
-
-        moviePosterImageView = (ImageView) findViewById(R.id.iv_movie_poster);
 
         if (movie != null) {
             bind(movie);
@@ -47,7 +52,12 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void bind(Result movie) {
         movieTitleTextView.setText(movie.getTitle());
-        releaseDateTextView.setText(movie.getReleaseDate());
+
+        String releaseDateString = movie.getReleaseDate();
+        long dateInLong = MoviesDateUtils.getDateLongFromString(releaseDateString);
+        String date = MoviesDateUtils.getFriendlyDateString(this, dateInLong);
+
+        releaseDateTextView.setText(date);
 
         String userRating = "" + movie.getVoteAverage() + "/10";
 
