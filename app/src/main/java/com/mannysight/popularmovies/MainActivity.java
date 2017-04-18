@@ -13,19 +13,15 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.mannysight.popularmovies.apimodel.MovieList;
 import com.mannysight.popularmovies.apimodel.Result;
-import com.mannysight.popularmovies.data.MoviePreferences;
+import com.mannysight.popularmovies.utilities.NetworkUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
-
-    private static final String MOVIES_ARRAY_LIST = "MOVIES ARRAY LIST";
 
     @BindView(R.id.recyclerview_movies)
     RecyclerView mRecyclerView;
@@ -37,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     TextView mErrorMessageDisplay;
 
     private MovieAdapter mMovieAdapter;
-    private ArrayList<Result> mMoviesList;
 
 
     @Override
@@ -45,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
-        mMoviesList = new ArrayList<>();
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
 
@@ -56,32 +49,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
-        if (savedInstanceState != null) {
-            MovieList movieList = savedInstanceState.getParcelable(MOVIES_ARRAY_LIST);
-            List<Result> savedMovieList = null;
-            if (movieList != null) {
-                savedMovieList = movieList.getResults();
-            }
-            if (savedMovieList != null && savedMovieList.size() > 0) {
-                mMoviesList = (ArrayList<Result>) savedMovieList;
-                mMovieAdapter.setMovieList(null);
-                mMovieAdapter.setMovieList(mMoviesList);
-                mMovieAdapter.notifyDataSetChanged();
-            }
-        } else {
-            loadMovieData(MoviePreferences.POPULAR);
-        }
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if (mMoviesList.size() > 0) {
-            MovieList list = new MovieList();
-            list.setResults(mMoviesList);
-            outState.putParcelable(MOVIES_ARRAY_LIST, list);
-            super.onSaveInstanceState(outState);
-        }
+        loadMovieData(NetworkUtils.POPULAR_MOVIES);
     }
 
     @Override
@@ -112,17 +80,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private void setListToTopRated() {
         mMovieAdapter.setMovieList(null);
-        loadMovieData(MoviePreferences.TOP_RATED);
+        loadMovieData(NetworkUtils.TOP_RATED_MOVIES);
     }
 
     private void setListToPopular() {
         mMovieAdapter.setMovieList(null);
-        loadMovieData(MoviePreferences.POPULAR);
+        loadMovieData(NetworkUtils.POPULAR_MOVIES);
     }
 
-    private void loadMovieData(MoviePreferences preferences) {
+    private void loadMovieData(String preference) {
         showMovieListDataView();
-        new FetchMovieTask(new FetchMovieTaskActionListener()).execute(preferences);
+        new FetchMovieTask(new FetchMovieTaskActionListener()).execute(preference);
     }
 
 
@@ -154,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         @Override
         public void onTaskComplete(ArrayList<Result> movies) {
-            mMoviesList = movies;
             mLoadingIndicator.setVisibility(View.INVISIBLE);
             if (movies != null) {
                 showMovieListDataView();

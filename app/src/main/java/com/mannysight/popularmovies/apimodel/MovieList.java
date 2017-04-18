@@ -23,10 +23,6 @@ public class MovieList implements Parcelable {
         return results;
     }
 
-    public void setResults(List<Result> results) {
-        this.results = results;
-    }
-
     @Override
     public int describeContents() {
         return 0;

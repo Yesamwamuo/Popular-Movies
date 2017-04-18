@@ -3,8 +3,6 @@ package com.mannysight.popularmovies.utilities;
 import android.net.Uri;
 import android.util.Log;
 
-import com.mannysight.popularmovies.data.MoviePreferences;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -20,10 +18,10 @@ public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String POPULAR_MOVIES =
+    public static final String POPULAR_MOVIES =
             "http://api.themoviedb.org/3/movie/popular";
 
-    private static final String TOP_RATED_MOVIES =
+    public static final String TOP_RATED_MOVIES =
             "http://api.themoviedb.org/3/movie/top_rated";
 
     private static String MOVIE_BASE_URL = "";
@@ -36,12 +34,12 @@ public class NetworkUtils {
     private final static String LANGUAGE_PARAM = "language";
 
 
-    public static URL buildUrl(MoviePreferences preferences) {
-        switch (preferences) {
-            case POPULAR:
+    public static URL buildUrl(String preference) {
+        switch (preference) {
+            case POPULAR_MOVIES:
                 MOVIE_BASE_URL = POPULAR_MOVIES;
                 break;
-            case TOP_RATED:
+            case TOP_RATED_MOVIES:
                 MOVIE_BASE_URL = TOP_RATED_MOVIES;
                 break;
         }
