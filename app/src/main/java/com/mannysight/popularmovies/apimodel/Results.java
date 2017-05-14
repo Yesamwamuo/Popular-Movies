@@ -13,13 +13,13 @@ import java.util.List;
  */
 
 
-public class MovieList implements Parcelable {
+public class Results implements Parcelable {
 
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<MovieResult> results = null;
 
-    public List<Result> getResults() {
+    public List<MovieResult> getResults() {
         return results;
     }
 
@@ -33,22 +33,22 @@ public class MovieList implements Parcelable {
         dest.writeTypedList(this.results);
     }
 
-    public MovieList() {
+    public Results() {
     }
 
-    protected MovieList(Parcel in) {
-        this.results = in.createTypedArrayList(Result.CREATOR);
+    protected Results(Parcel in) {
+        this.results = in.createTypedArrayList(MovieResult.CREATOR);
     }
 
-    public static final Parcelable.Creator<MovieList> CREATOR = new Parcelable.Creator<MovieList>() {
+    public static final Parcelable.Creator<Results> CREATOR = new Parcelable.Creator<Results>() {
         @Override
-        public MovieList createFromParcel(Parcel source) {
-            return new MovieList(source);
+        public Results createFromParcel(Parcel source) {
+            return new Results(source);
         }
 
         @Override
-        public MovieList[] newArray(int size) {
-            return new MovieList[size];
+        public Results[] newArray(int size) {
+            return new Results[size];
         }
     };
 }

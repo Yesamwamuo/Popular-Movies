@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context="com.mannysight.popularmovies.MovieDetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/movie_title_banner" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_padding_large"
+            android:layout_marginEnd="@dimen/margin_padding_xxlarge"
+            android:layout_marginLeft="@dimen/margin_padding_xxlarge"
+            android:layout_marginRight="@dimen/margin_padding_xxlarge"
+            android:layout_marginStart="@dimen/margin_padding_xxlarge"
+            android:layout_marginTop="@dimen/margin_padding_medium"
+            android:orientation="horizontal">
+
+            <include layout="@layout/movie_poster_layout" />
+
+            <LinearLayout
+                android:layout_width="@dimen/margin_padding_zero"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_padding_xxlarge"
+                android:layout_marginLeft="@dimen/margin_padding_xxlarge"
+                android:layout_marginRight="@dimen/margin_padding_xxlarge"
+                android:layout_marginStart="@dimen/margin_padding_xxlarge"
+                android:layout_weight="0.6"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_padding_medium">
+
+                <include layout="@layout/movie_details_layout" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <include
+            android:id="@+id/tv_overview"
+            layout="@layout/movie_overview_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_padding_large"
+            android:layout_marginRight="@dimen/margin_padding_large" />
+
+        <include layout="@layout/movie_detail_trailer_and_review" />
+
+    </LinearLayout>
+
+</ScrollView>

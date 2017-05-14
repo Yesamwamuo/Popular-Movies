@@ -10,9 +10,12 @@
     <dimen name="margin_padding_small">4dp</dimen>
     <dimen name="margin_padding_medium">8dp</dimen>
     <dimen name="margin_padding_large">12dp</dimen>
+    <dimen name="margin_padding_large_two">16dp</dimen>
     <dimen name="margin_padding_xlarge">24dp</dimen>
     <dimen name="margin_padding_xxlarge">36dp</dimen>
 
 
     <dimen name="title_banner_size">120dp</dimen>
+    <dimen name="progressbar_dimen">42dp</dimen>
+    <dimen name="dividerHeight">1dp</dimen>
 </resources>

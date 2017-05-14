@@ -2,8 +2,26 @@
     <string name="app_name">Popular Movies</string>
     <string name="error_message">An error has occurred. Please try again by choosing a sort order.</string>
     <string name="action_popular">Popular</string>
+    <string name="action_settings">Settings</string>
     <string name="action_top_rated">Top Rated</string>
+
+    <string name="pref_sort_label">Sort By</string>
+    <string name="pref_sort_key" translatable="false">sort_by</string>
+
+    <string name="pref_sort_label_popular">Popular</string>
+    <string name="pref_sort_label_top_rated">Top Rated</string>
+    <string name="pref_sort_label_favourites">Favourites</string>
+
+    <string name="pref_sort_popular_value" translatable="false">http://api.themoviedb.org/3/movie/popular</string>
+    <string name="pref_sort_top_rated_value" translatable="false">http://api.themoviedb.org/3/movie/top_rated</string>
+    <string name="pref_sort_favourites_value" translatable="false">saved_favourite_movies</string>
+
+    <string name="trailerText">Play Trailer #%1$d</string>
 
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
+
+    <string name="content_authority">com.mannysight.popularmovies</string>
+    <string name="review_header">Reviews</string>
+    <string name="favourite_empty">Click the star icon to add movies to your favourite list from the popular/top rated movie list.</string>
 </resources>

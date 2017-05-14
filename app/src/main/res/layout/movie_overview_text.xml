@@ -6,5 +6,5 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_padding_large"
     android:textAppearance="?android:textAppearanceMedium"
-    tools:showIn="@layout/activity_movie"
+    tools:showIn="@layout/activity_movie_detail"
     tools:text="A small description of the movie goes here, not an indepth review but with some details about the movie so users would know what the movie is about." />

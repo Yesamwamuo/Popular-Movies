@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.mannysight.popularmovies.apimodel.Result;
+import com.mannysight.popularmovies.apimodel.MovieResult;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapterViewHolder> {
 
-    private ArrayList<Result> mMovieList;
+    private ArrayList<MovieResult> mMovieList;
     private Context context;
 
     private final MovieAdapterOnClickHandler mClickHandler;
@@ -44,7 +44,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
     @Override
     public void onBindViewHolder(MovieAdapterViewHolder holder, int position) {
-        Result movie = mMovieList.get(position);
+        MovieResult movie = mMovieList.get(position);
         holder.bind(context, movie);
     }
 
@@ -54,7 +54,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         return mMovieList.size();
     }
 
-    public void setMovieList(ArrayList<Result> movieList) {
+    public void setMovieList(ArrayList<MovieResult> movieList) {
         mMovieList = movieList;
         notifyDataSetChanged();
     }
@@ -70,7 +70,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         }
 
 
-        private void bind(Context context, Result movie) {
+        private void bind(Context context, MovieResult movie) {
 
             final String IMAGE_BASE_PATH = "http://image.tmdb.org/t/p/w185/";
 
@@ -85,12 +85,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            Result movie = mMovieList.get(adapterPosition);
+            MovieResult movie = mMovieList.get(adapterPosition);
             mClickHandler.onClick(movie);
         }
     }
 
     public interface MovieAdapterOnClickHandler {
-        void onClick(Result movie);
+        void onClick(MovieResult movie);
     }
 }

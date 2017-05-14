@@ -14,15 +14,17 @@
         android:id="@+id/tv_error_message_display"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:padding="@dimen/margin_padding_large_two"
         android:text="@string/error_message"
-        android:textSize="20sp"
-        android:visibility="invisible" />
+        android:textSize="@dimen/text_size_large"
+        android:visibility="invisible"
+        tools:text="@string/error_message"
+        tools:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
-        android:layout_width="42dp"
-        android:layout_height="42dp"
+        android:layout_width="@dimen/progressbar_dimen"
+        android:layout_height="@dimen/progressbar_dimen"
         android:layout_gravity="center"
         android:visibility="invisible" />
 

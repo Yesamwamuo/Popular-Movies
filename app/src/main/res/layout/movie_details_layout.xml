@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_movie">
+    tools:showIn="@layout/activity_movie_detail">
 
     <TextView
         android:id="@+id/tv_release_date"
@@ -19,4 +19,14 @@
         android:layout_marginTop="@dimen/margin_padding_large"
         android:textColor="@color/colorBlack"
         tools:text="8/10" />
+
+    <ImageButton
+        android:background="@android:color/transparent"
+        android:tint="@color/colorPrimary"
+        android:onClick="toggleFavourites"
+        android:id="@+id/favbutton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@mipmap/ic_fav_btn"
+         />
 </merge>

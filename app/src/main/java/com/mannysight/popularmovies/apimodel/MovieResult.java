@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 
-public class Result implements Parcelable {
+public class MovieResult implements Parcelable {
 
     @SerializedName("poster_path")
     @Expose
@@ -25,12 +25,24 @@ public class Result implements Parcelable {
     @SerializedName("overview")
     @Expose
     private String overview;
+
+    public MovieResult(String posterPath, String overview, String releaseDate, Integer id, String title, Double voteAverage) {
+        this.posterPath = posterPath;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.id = id;
+        this.title = title;
+        this.voteAverage = voteAverage;
+    }
+
     @SerializedName("release_date")
     @Expose
+
     private String releaseDate;
     @SerializedName("genre_ids")
     @Expose
     private List<Integer> genreIds = null;
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -58,6 +70,13 @@ public class Result implements Parcelable {
     @SerializedName("vote_average")
     @Expose
     private Double voteAverage;
+
+    public Integer getId() {
+        return id;
+    }
+    private List<ReviewResult> reviewResults = null;
+
+    private List<VideoResult> videoResults = null;
 
     public String getPosterPath() {
         return posterPath;
@@ -102,7 +121,7 @@ public class Result implements Parcelable {
         dest.writeValue(this.voteAverage);
     }
 
-    protected Result(Parcel in) {
+    protected MovieResult(Parcel in) {
         this.posterPath = in.readString();
         this.adult = (Boolean) in.readValue(Boolean.class.getClassLoader());
         this.overview = in.readString();
@@ -120,15 +139,31 @@ public class Result implements Parcelable {
         this.voteAverage = (Double) in.readValue(Double.class.getClassLoader());
     }
 
-    public static final Parcelable.Creator<Result> CREATOR = new Parcelable.Creator<Result>() {
+    public static final Parcelable.Creator<MovieResult> CREATOR = new Parcelable.Creator<MovieResult>() {
         @Override
-        public Result createFromParcel(Parcel source) {
-            return new Result(source);
+        public MovieResult createFromParcel(Parcel source) {
+            return new MovieResult(source);
         }
 
         @Override
-        public Result[] newArray(int size) {
-            return new Result[size];
+        public MovieResult[] newArray(int size) {
+            return new MovieResult[size];
         }
     };
+
+    public List<ReviewResult> getReviewResults() {
+        return reviewResults;
+    }
+
+    public void setReviewResults(List<ReviewResult> reviewResults) {
+        this.reviewResults = reviewResults;
+    }
+
+    public List<VideoResult> getVideoResults() {
+        return videoResults;
+    }
+
+    public void setVideoResults(List<VideoResult> videoResults) {
+        this.videoResults = videoResults;
+    }
 }

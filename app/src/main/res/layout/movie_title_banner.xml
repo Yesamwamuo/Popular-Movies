@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/title_banner_size"
     android:background="@color/colorTitleBg"
-    tools:showIn="@layout/activity_movie">
+    tools:showIn="@layout/activity_movie_detail">
 
     <TextView
         android:id="@+id/tv_movie_title"
@@ -14,7 +14,9 @@
         android:layout_gravity="center_vertical"
         android:fontFamily="sans-serif"
         android:paddingLeft="@dimen/margin_padding_xlarge"
+        android:paddingStart="@dimen/margin_padding_xlarge"
         android:paddingRight="@dimen/margin_padding_xlarge"
+        android:paddingEnd="@dimen/margin_padding_xlarge"
         android:textColor="@color/text_color"
         android:textSize="@dimen/text_size_xxlarge"
         tools:text="30 days in Atlanta" />

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_padding_large"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryLight" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_trailers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+    <ProgressBar
+        android:id="@+id/movie_detail_pb_loading_indicator"
+        android:layout_width="@dimen/progressbar_dimen"
+        android:layout_height="@dimen/progressbar_dimen"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_small"
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/margin_padding_small"
+        android:textColor="@color/text_color"
+        android:text="@string/review_header"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textStyle="bold" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerview_reviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

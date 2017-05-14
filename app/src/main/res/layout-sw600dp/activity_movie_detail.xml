@@ -13,15 +13,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include
-            layout="@layout/movie_title_banner"
-             />
+        <include layout="@layout/movie_title_banner" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_xxlarge"
             android:layout_marginLeft="@dimen/margin_padding_xxlarge"
             android:layout_marginRight="@dimen/margin_padding_xxlarge"
+            android:layout_marginStart="@dimen/margin_padding_xxlarge"
             android:layout_marginTop="@dimen/margin_padding_medium"
             android:orientation="horizontal">
 
@@ -32,13 +32,17 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:orientation="vertical"
+                android:paddingEnd="@dimen/margin_padding_xxlarge"
                 android:paddingLeft="@dimen/margin_padding_xxlarge"
                 android:paddingRight="@dimen/margin_padding_xxlarge"
+                android:paddingStart="@dimen/margin_padding_xxlarge"
                 android:paddingTop="@dimen/margin_padding_medium">
 
                 <include layout="@layout/movie_details_layout" />
 
                 <include layout="@layout/movie_overview_text" />
+
+                <include layout="@layout/movie_detail_trailer_and_review" />
 
             </LinearLayout>
         </LinearLayout>
