@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private static final String PREFERENCE_STRING_EXTRA = "PREFERENCE_STRING_EXTRA";
     private static final String ERROR1 = "ERROR1";
     private static final String ERROR2 = "ERROR2";
+    private static final String RV_STATE_KEY = "RV_STATE_KEY";
 
     @BindView(R.id.recyclerview_movies)
     RecyclerView mRecyclerView;
@@ -51,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private MovieAdapter mMovieAdapter;
 
+    private SharedPreferences sharedPreferences;
+
+    private RecyclerView.LayoutManager layoutManager;
+
+    private Parcelable rvState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,23 +66,54 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         ButterKnife.bind(this);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+            layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(layoutManager);
         } else {
-            mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
+            layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+            mRecyclerView.setLayoutManager(layoutManager);
         }
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         mRecyclerView.setHasFixedSize(true);
 
         mMovieAdapter = new MovieAdapter(this);
         mRecyclerView.setAdapter(mMovieAdapter);
 
-        setupSharedPreferences();
+        setupSharedPreferences(sharedPreferences);
     }
 
-    private void setupSharedPreferences() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        loadSortFromPreferences(sharedPreferences);
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        rvState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(RV_STATE_KEY, rvState);
+        super.onSaveInstanceState(outState);
+    }
 
+    protected void onRestoreInstanceState(Bundle state) {
+        if (state != null)
+            rvState = state.getParcelable(RV_STATE_KEY);
+        super.onRestoreInstanceState(state);
+    }
+
+    private void setupSharedPreferences(SharedPreferences sharedPreferences) {
+        loadSortFromPreferences(sharedPreferences);
         sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String value = sharedPreferences.getString(getString(R.string.pref_sort_key),
+                getString(R.string.pref_sort_popular_value));
+
+        if (value.equals(getString(R.string.pref_sort_favourites_value))) {
+            mMovieAdapter.setMovieList(null);
+            loadMovieData(value);
+            mMovieAdapter.notifyDataSetChanged();
+        }
+
     }
 
     private void loadSortFromPreferences(SharedPreferences sharedPreferences) {
@@ -140,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         if (error.equals(ERROR2)) {
             mErrorMessageDisplay.setText(getString(R.string.favourite_empty));
             mErrorMessageDisplay.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             mErrorMessageDisplay.setVisibility(View.VISIBLE);
         }
         mRecyclerView.setVisibility(View.INVISIBLE);
@@ -150,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         mErrorMessageDisplay.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
-
 
 
     @Override
@@ -228,6 +266,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             (Loader<ArrayList<MovieResult>> loader, ArrayList<MovieResult> data) {
         mLoadingIndicator.setVisibility(View.INVISIBLE);
         mMovieAdapter.setMovieList(data);
+
+        if (rvState != null) {
+            mRecyclerView.getLayoutManager().onRestoreInstanceState(rvState);
+        }
 
         if (null == data) {
             showErrorMessage(ERROR1);

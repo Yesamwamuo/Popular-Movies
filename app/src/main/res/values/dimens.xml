@@ -18,4 +18,6 @@
     <dimen name="title_banner_size">120dp</dimen>
     <dimen name="progressbar_dimen">42dp</dimen>
     <dimen name="dividerHeight">1dp</dimen>
+    <dimen name="favBtnDimen">40dp</dimen>
+
 </resources>
